@@ -42,7 +42,7 @@ async def asgi_http_parser_server(reader, writer):
             body = await reader.read(100)
             read += len(body)
             await to_app.put(create_message(body, read < parser.body_length))
-            if len(body) >= parser.body_length:
+            if read >= parser.body_length:
                 break
     scope = create_scope(parser)
     from_app = asyncio.Queue()
